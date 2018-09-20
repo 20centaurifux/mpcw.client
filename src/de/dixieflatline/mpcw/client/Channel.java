@@ -21,7 +21,7 @@ public class Channel
 		writer = new DataOutputStream(socket.getOutputStream());
 	}
 
-	public IResponse send(String command) throws IOException, AckException
+	public IResponse send(String command) throws CommunicationException, AckException
 	{		
 		writeLine(command);
 
@@ -30,12 +30,19 @@ public class Channel
 		return response;
 	}
 	
-	private void writeLine(String line) throws IOException
+	private void writeLine(String line) throws CommunicationException
 	{
-		writer.writeBytes(line + '\n');
+		try
+		{
+			writer.writeBytes(line + '\n');	
+		}
+		catch(IOException ex)
+		{
+			throw new CommunicationException(ex);
+		}
 	}
 	
-	public IResponse receive() throws IOException, AckException
+	public IResponse receive() throws CommunicationException, AckException
 	{
 		ArrayList<String> lines = new ArrayList<String>();
 		String line = null;
@@ -43,8 +50,15 @@ public class Channel
 		
 		while(response == null)
 		{
-			line = reader.readLine().trim();
-
+			try
+			{
+				line = reader.readLine().trim();
+			}
+			catch(IOException ex)
+			{
+				throw new CommunicationException(ex);
+			}
+			
 			lines.add(line);
 
 			if(line.startsWith("ACK"))
@@ -60,8 +74,15 @@ public class Channel
 		return response;
 	}
 
-	public void close() throws IOException
+	public void close() throws CommunicationException
 	{
-		socket.close();
+		try
+		{
+			socket.close();
+		}
+		catch(IOException ex)
+		{
+			throw new CommunicationException(ex);
+		}
 	}
 }

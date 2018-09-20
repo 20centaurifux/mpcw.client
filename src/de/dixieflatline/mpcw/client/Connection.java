@@ -1,7 +1,6 @@
 package de.dixieflatline.mpcw.client;
 
-import java.io.*;
-import java.net.*;
+import java.net.Socket;
 
 public class Connection
 {
@@ -36,44 +35,60 @@ public class Connection
 		return version;
 	}
 	
-	public void connect() throws UnknownHostException, IOException, AckException, UnexpectedResponseException, InvalidVersionFormatException
+	public void connect() throws CommunicationException, AckException, ProtocolException
 	{
 		openChannel();
 		detectVersion();
 	}
 	
-	public void connect(Credentials credentials) throws UnknownHostException, IOException, AckException, UnexpectedResponseException, InvalidVersionFormatException
+	public void connect(Credentials credentials) throws CommunicationException, AckException, ProtocolException
 	{
 		connect();
 		authenticate(credentials);
 	}
 
-	private void openChannel() throws UnknownHostException, IOException
+	private void openChannel() throws CommunicationException
 	{
-		Socket socket = new Socket(hostname, port);
+		try
+		{
+			Socket socket = new Socket(hostname, port);
 
-		channel = new Channel(socket);
+			channel = new Channel(socket);
+		}
+		catch(Exception ex)
+		{
+			throw new CommunicationException(ex);
+		}
 	}
 
-	private void detectVersion() throws IOException, AckException, UnexpectedResponseException, InvalidVersionFormatException
+	private void detectVersion() throws CommunicationException, AckException, ProtocolException
 	{
 		IResponse response = channel.receive();
 		
-		if(response.size() != 1)
+		if(response.size() == 1)
 		{
-			throw new UnexpectedResponseException("Couldn't detect MPD version.");
-		}
+			String line = response.iterator().next();
 			
-		String line = response.iterator().next();
-		
-		version = Version.parse(line);
+			try
+			{
+				version = Version.parse(line);
+			}
+			catch(InvalidVersionFormatException ex)
+			{
+				throw new ProtocolException(ex.getMessage());
+			}	
+		}
+		else
+		{
+			throw new ProtocolException("Couldn't detect MPD version.");
+		}			
 	}
 
 	private void authenticate(Credentials credentials)
 	{
 	}
 	
-	public void disconnect() throws IOException
+	public void disconnect() throws CommunicationException
 	{
 		channel.close();
 	}
