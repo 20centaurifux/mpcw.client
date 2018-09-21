@@ -2,7 +2,7 @@ package de.dixieflatline.mpcw.client;
 
 public enum EState
 {
-	Playing,
+	Play,
 	Pause,
 	Stop
 }

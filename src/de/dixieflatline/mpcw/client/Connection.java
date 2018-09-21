@@ -95,6 +95,6 @@ public class Connection
 	
 	public IClient createClient()
 	{
-		return null;
+		return new MPDClient(channel);
 	}
 }

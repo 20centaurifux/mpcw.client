@@ -21,13 +21,31 @@ public class Channel
 		writer = new DataOutputStream(socket.getOutputStream());
 	}
 
-	public IResponse send(String command) throws CommunicationException, AckException
-	{		
-		writeLine(command);
-
-		IResponse response = receive();
+	public void send(String... commands) throws CommunicationException, AckException
+	{
+		boolean isCommandList = commands.length > 0;
 		
-		return response;
+		if(isCommandList)
+		{
+			writeLine("command_list_begin");
+		}
+		
+		for(String command : commands)
+		{
+			writeLine(command);
+		}
+
+		if(isCommandList)
+		{
+			writeLine("command_list_end");
+		}
+	}
+	
+	public IResponse request(String... commands) throws CommunicationException, AckException
+	{
+		send(commands);
+
+		return receive();
 	}
 	
 	private void writeLine(String line) throws CommunicationException
