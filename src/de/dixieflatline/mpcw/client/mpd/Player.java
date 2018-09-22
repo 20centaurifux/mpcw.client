@@ -82,31 +82,31 @@ public class Player implements IPlayer
 	}
 	
 	@Override
-	public void play() throws CommunicationException
+	public void play() throws CommunicationException, ProtocolException
 	{
 		channel.send("play");
 	}
 	
 	@Override
-	public void pause() throws CommunicationException
+	public void pause() throws CommunicationException, ProtocolException
 	{
 		channel.send("pause");
 	}
 	
 	@Override
-	public void stop() throws CommunicationException
+	public void stop() throws CommunicationException, ProtocolException
 	{
 		channel.send("stop");
 	}
 	
 	@Override
-	public void next() throws CommunicationException
+	public void next() throws CommunicationException, ProtocolException
 	{
 		channel.send("next");
 	}
 	
 	@Override
-	public void previous() throws CommunicationException
+	public void previous() throws CommunicationException, ProtocolException
 	{
 		channel.send("previous");
 	}

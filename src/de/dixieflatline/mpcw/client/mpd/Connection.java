@@ -64,7 +64,7 @@ public class Connection implements IConnection
 	}
 	
 	@Override
-	public void connect() throws CommunicationException
+	public void connect() throws CommunicationException, AuthenticationException
 	{
 		openChannel();
 	
@@ -116,9 +116,19 @@ public class Connection implements IConnection
 		}			
 	}
 
-	private void authenticate()
+	private void authenticate() throws AuthenticationException, CommunicationException
 	{
-		// @TODO
+		if(password != null)
+		{
+			try
+			{
+				channel.send("password " + password);
+			}
+			catch(ProtocolException ex)
+			{
+				throw new AuthenticationException();
+			}
+		}
 	}
 
 	@Override

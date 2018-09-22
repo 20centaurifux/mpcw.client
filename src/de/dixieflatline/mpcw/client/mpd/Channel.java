@@ -20,9 +20,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import javax.xml.ws.ProtocolException;
-
 import de.dixieflatline.mpcw.client.CommunicationException;
+import de.dixieflatline.mpcw.client.ProtocolException;;
 
 public class Channel
 {
@@ -56,7 +55,7 @@ public class Channel
 		{
 			writeLine("command_list_end");
 		}
-		
+
 		return receive();
 	}
 	
@@ -90,7 +89,7 @@ public class Channel
 				{
 					throwCommunicationExceptionAndShutdown(ex);
 				}
-				
+
 				lines.add(line);
 	
 				if(line.startsWith("ACK"))

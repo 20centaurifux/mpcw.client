@@ -16,13 +16,17 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client;
 
-public interface IConnection
-{	
-	boolean isConnected();
+public class AuthenticationException extends Exception
+{
+	private static final long serialVersionUID = 7395953021387519723L;
 
-	void connect() throws CommunicationException, AuthenticationException;
+	public AuthenticationException()
+	{
+		super();
+	}
 	
-	void disconnect() throws CommunicationException;
-	
-	IClient getClient();
+	public AuthenticationException(String message)
+	{
+		super(message);
+	}
 }
