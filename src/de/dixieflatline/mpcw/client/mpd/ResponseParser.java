@@ -13,7 +13,7 @@ public final class ResponseParser
 		{
 			if(!line.equals("OK"))
 			{
-				Pair<String, String> pair = parseLine(line);
+				Pair<String, String> pair = splitLineIntoPair(line);
 
 				m.put(pair.getKey(), pair.getValue());
 			}
@@ -21,8 +21,8 @@ public final class ResponseParser
 
 		return m;
 	}
-
-	static Pair<String, String> parseLine(String line) throws FormatException
+	
+	public static Pair<String, String> splitLineIntoPair(String line) throws FormatException
 	{
 		int offset = line.indexOf(':');
 
