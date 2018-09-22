@@ -1,9 +1,9 @@
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
 public class Pair<K, V>
 {
-	private K key;
-	private V value;
+	private final K key;
+	private final V value;
 	
 	public Pair(K key, V value)	
 	{

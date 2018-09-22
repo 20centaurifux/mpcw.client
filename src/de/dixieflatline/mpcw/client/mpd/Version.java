@@ -1,13 +1,13 @@
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Version
 {
-	int major;
-	int minor;
-	int revision;
+	private final int major;
+	private final int minor;
+	private final int revision;
 	
 	public Version(int major, int minor, int revision)
 	{

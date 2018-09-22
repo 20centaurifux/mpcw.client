@@ -1,4 +1,4 @@
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
 public class InvalidVersionFormatException extends Exception
 {

@@ -8,4 +8,9 @@ public class ProtocolException extends Exception
 	{
 		super(message);
 	}
+	
+	public ProtocolException(Exception cause)
+	{
+		super(cause);
+	}
 }

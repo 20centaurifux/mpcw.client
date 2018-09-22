@@ -1,11 +1,11 @@
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
 import java.util.Iterator;
 import java.util.Arrays;
 
 public class Ack implements IResponse
 {
-	private String[] response;
+	final private String[] response;
 	
 	public Ack(String message)
 	{

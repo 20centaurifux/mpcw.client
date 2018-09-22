@@ -1,4 +1,4 @@
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class Ok implements IResponse
 {
-	private ArrayList<String> response = new ArrayList<String>();
+	private final ArrayList<String> response = new ArrayList<String>();
 
 	public Ok() { }
 	

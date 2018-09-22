@@ -1,11 +1,11 @@
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
 
-public final class ResponseConverter
+public final class ResponseParser
 {
-	public static AbstractMap<String, String> reponseToMap(IResponse response) throws ProtocolException
+	public static AbstractMap<String, String> reponseToMap(IResponse response) throws FormatException
 	{
 		AbstractMap<String, String> m = new HashMap<String, String>();
 		
@@ -22,13 +22,13 @@ public final class ResponseConverter
 		return m;
 	}
 
-	static Pair<String, String> parseLine(String line) throws ProtocolException
+	static Pair<String, String> parseLine(String line) throws FormatException
 	{
 		int offset = line.indexOf(':');
 
 		if(offset == -1)
 		{
-			throw new ProtocolException("No colon found in received line.");
+			throw new FormatException("No colon found in received line.");
 		}
 		
 		String key = line.substring(0, offset);

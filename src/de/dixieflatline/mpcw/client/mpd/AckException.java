@@ -1,9 +1,9 @@
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
 public class AckException extends Exception
 {
 	private static final long serialVersionUID = -7251901791447424761L;
-	private IResponse response;
+	private final IResponse response;
 	
 	public AckException(Ack response)
 	{

@@ -4,16 +4,12 @@ public class Main
 {
 	public static void main(String[] args) throws Exception
 	{
-		Connection conn = new Connection("localhost", 6600);
+		IConnection conn = Connection.create("mpd://localhost");
 
 		conn.connect();
-		
-		IClient client = conn.createClient();
 
-		System.out.println(conn.getVersion().toString());
-	
-		IPlayer player = client.createPlayer();
-		
+		IClient client = conn.getClient();
+		IPlayer player = client.getPlayer();
 		Status status = player.getStatus();
 
 		System.out.println(status.getState());
@@ -22,8 +18,8 @@ public class Main
 		System.out.println(status.getArtist());
 		System.out.println(status.getTitle());
 		
-		player.play();
-
+		player.stop();
+		
 		conn.disconnect();
 	}
 }
