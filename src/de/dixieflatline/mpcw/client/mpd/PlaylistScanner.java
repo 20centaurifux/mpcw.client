@@ -1,5 +1,22 @@
+/***************************************************************************
+    begin........: September 2018
+    copyright....: Sebastian Fedrau
+    email........: sebastian.fedrau@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License v3 as published by
+    the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    General Public License v3 for more details.
+ ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 
 import de.dixieflatline.mpcw.client.PlaylistItem;
@@ -9,19 +26,21 @@ public class PlaylistScanner
 	private boolean firstItemFound;
 	private String artist;
 	private String title;
-	private final ArrayList<IPlaylistScannerListener> listeners = new ArrayList<IPlaylistScannerListener>();
+	private final AbstractList<IPlaylistScannerListener> listeners;
 	
-	public void addListener(IPlaylistScannerListener listener)
+	public PlaylistScanner()
 	{
-		listeners.add(listener);
+		listeners = new ArrayList<IPlaylistScannerListener>();
 	}
 
-	public void removeListener(IPlaylistScannerListener listener)
+	public void reset()
 	{
-		listeners.remove(listener);
+		firstItemFound = false;
+		artist = null;
+		title = null;
 	}
 
-	public void addLine(String line) throws FormatException
+	public void feed(String line) throws InvalidFormatException
 	{
 		Pair<String, String> pair = ResponseParser.splitLineIntoPair(line);
 		
@@ -29,7 +48,7 @@ public class PlaylistScanner
 		{
 			if(firstItemFound)
 			{
-				invokeListeners();
+				raiseOnPlaylistItemFound();
 			}
 
 			firstItemFound = true;
@@ -48,10 +67,20 @@ public class PlaylistScanner
 	
 	public void flush()
 	{
-		invokeListeners();
+		raiseOnPlaylistItemFound();
 	}
 	
-	private void invokeListeners()
+	public void addListener(IPlaylistScannerListener listener)
+	{
+		listeners.add(listener);
+	}
+
+	public void removeListener(IPlaylistScannerListener listener)
+	{
+		listeners.remove(listener);
+	}
+
+	private void raiseOnPlaylistItemFound()
 	{
 		if((artist != null && !artist.isEmpty())|| (title != null && !title.isEmpty()))
 		{

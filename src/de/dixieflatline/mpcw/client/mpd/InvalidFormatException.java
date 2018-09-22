@@ -16,42 +16,12 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class Version
+public class InvalidFormatException extends Exception
 {
-	private final int major;
-	private final int minor;
-	private final int revision;
-	
-	public Version(int major, int minor, int revision)
-	{
-		this.major = major;
-		this.minor = minor;
-		this.revision = revision;
-	}
-	
-	public static final Version parse(String version) throws InvalidFormatException
-	{
-		Pattern pattern = Pattern.compile("^OK MPD (\\d+)\\.(\\d+)\\.(\\d+)$");
-		Matcher matcher = pattern.matcher(version);
-		
-		if(matcher.find())
-		{
-			int major = Integer.parseInt(matcher.group(1));
-			int minor = Integer.parseInt(matcher.group(2));
-			int revision = Integer.parseInt(matcher.group(3));
-			
-			return new Version(major, minor, revision);
-		}
-		
-		throw new InvalidFormatException(version);
-	}
+	private static final long serialVersionUID = -1500785326682913054L;
 
-	@Override
-	public String toString()
+	public InvalidFormatException(String message)
 	{
-		return String.format("%d.%d.%d", major, minor, revision);
+		super(message);
 	}
 }

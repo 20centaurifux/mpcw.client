@@ -1,5 +1,22 @@
+/***************************************************************************
+    begin........: September 2018
+    copyright....: Sebastian Fedrau
+    email........: sebastian.fedrau@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License v3 as published by
+    the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    General Public License v3 for more details.
+ ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
+import java.util.AbstractList;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,11 +26,12 @@ import de.dixieflatline.mpcw.client.*;
 public class Playlist implements IPlaylist
 {
 	private final Channel channel;
-	private final ArrayList<PlaylistItem> items = new ArrayList<PlaylistItem>();
+	private final AbstractList<PlaylistItem> items;
 	private int selectedIndex = -1;
 	
 	public Playlist(Channel channel)
 	{
+		items = new ArrayList<PlaylistItem>();
 		this.channel = channel;
 	}
 
@@ -45,13 +63,13 @@ public class Playlist implements IPlaylist
 			{
 				if(!line.equals("OK"))
 				{
-					scanner.addLine(line);
+					scanner.feed(line);
 				}
 			}
 
 			scanner.flush();
 		}
-		catch(FormatException ex)
+		catch(InvalidFormatException ex)
 		{
 			throw new ProtocolException(ex);
 		}
