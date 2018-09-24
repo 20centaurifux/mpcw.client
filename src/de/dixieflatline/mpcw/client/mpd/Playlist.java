@@ -16,8 +16,8 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
-import java.util.AbstractList;
-import java.util.AbstractMap;
+import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -26,7 +26,7 @@ import de.dixieflatline.mpcw.client.*;
 public class Playlist implements IPlaylist
 {
 	private final Channel channel;
-	private final AbstractList<PlaylistItem> items;
+	private final List<PlaylistItem> items;
 	private int selectedIndex = -1;
 	
 	public Playlist(Channel channel)
@@ -42,7 +42,7 @@ public class Playlist implements IPlaylist
 		
 		try
 		{
-			AbstractMap<String, String> m = ResponseParser.reponseToMap(response);
+			Map<String, String> m = ResponseParser.reponseToMap(response);
 			
 			selectedIndex = Integer.parseInt(m.getOrDefault("song", "-1"));
 			

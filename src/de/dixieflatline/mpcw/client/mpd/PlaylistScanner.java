@@ -16,7 +16,7 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
-import java.util.AbstractList;
+import java.util.List;
 import java.util.ArrayList;
 
 import de.dixieflatline.mpcw.client.PlaylistItem;
@@ -26,7 +26,7 @@ public class PlaylistScanner
 	private boolean firstItemFound;
 	private String artist;
 	private String title;
-	private final AbstractList<IPlaylistScannerListener> listeners;
+	private final List<IPlaylistScannerListener> listeners;
 	
 	public PlaylistScanner()
 	{

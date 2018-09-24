@@ -16,14 +16,14 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
-import java.util.AbstractList;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 public class Ok implements IResponse
 {
-	private final AbstractList<String> response;
+	private final List<String> response;
 	
 	public Ok(Collection<String> response)
 	{

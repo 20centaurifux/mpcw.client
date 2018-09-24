@@ -16,7 +16,7 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
-import java.util.AbstractMap;
+import java.util.Map;
 
 import de.dixieflatline.mpcw.client.*;
 
@@ -38,7 +38,7 @@ public class Player implements IPlayer
 		{
 			IResponse response = channel.send("status");
 			
-			AbstractMap<String, String> m = ResponseParser.reponseToMap(response);
+			Map<String, String> m = ResponseParser.reponseToMap(response);
 		
 			EState state = parseState(m.get("state"));
 			

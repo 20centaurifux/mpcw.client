@@ -18,14 +18,14 @@ package de.dixieflatline.mpcw.client;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.AbstractMap;
+import java.util.Map;
 import java.util.HashMap;
 
 public final class QueryParser
 {
-	public static AbstractMap<String, String> parse(String query)
+	public static Map<String, String> parse(String query)
 	{
-		AbstractMap<String, String> m = new HashMap<String, String>();
+		Map<String, String> m = new HashMap<String, String>();
 
 		if(query != null && !query.isEmpty())
 		{

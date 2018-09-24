@@ -16,10 +16,29 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client;
 
+import de.dixieflatline.mpcw.diff.*;
+
 public class Main
 {
 	public static void main(String[] args) throws Exception
 	{
+		int[] a = new int[] { 'a', 'b', 'c', 'a', 'b', 'b', 'a' };
+		int[] b = new int[] { 'c', 'b', 'a', 'b', 'a', 'c' };
+
+		Myers myers = new Myers(a, b);
+		Trace trace = myers.shortestEdit();
+		Edge[] edges = myers.backtrack(trace);
+
+		for(Edge edge : edges)
+		{
+			System.out.format("(%d, %d) -> (%d, %d)\n",
+					          edge.getFrom().getX(),
+					          edge.getFrom().getY(),
+					          edge.getTo().getX(),
+					          edge.getTo().getY());
+		}
+
+		/*
 		IConnection conn = Connection.create("mpd://localhost:6600");
 
 		conn.connect();
@@ -50,5 +69,6 @@ public class Main
 		playlist.selectAndPlay(0);
 
 		conn.disconnect();
+		*/
 	}
 }

@@ -18,7 +18,7 @@ package de.dixieflatline.mpcw.client.mpd;
 
 import java.net.Socket;
 import java.net.URI;
-import java.util.AbstractMap;
+import java.util.Map;
 
 import de.dixieflatline.mpcw.client.*;
 
@@ -47,7 +47,7 @@ public class Connection implements IConnection
 			this.port = port;
 		}
 		
-		AbstractMap<String, String> params = QueryParser.parse(uri.getQuery());
+		Map<String, String> params = QueryParser.parse(uri.getQuery());
 
 		password = params.getOrDefault("password", null);
 	}

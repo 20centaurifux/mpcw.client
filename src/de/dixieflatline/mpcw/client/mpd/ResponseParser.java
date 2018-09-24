@@ -16,14 +16,14 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
-import java.util.AbstractMap;
+import java.util.Map;
 import java.util.HashMap;
 
 public final class ResponseParser
 {
-	public static AbstractMap<String, String> reponseToMap(IResponse response) throws InvalidFormatException
+	public static Map<String, String> reponseToMap(IResponse response) throws InvalidFormatException
 	{
-		AbstractMap<String, String> m = new HashMap<String, String>();
+		Map<String, String> m = new HashMap<String, String>();
 		
 		for(String line : response)
 		{
