@@ -22,8 +22,10 @@ public class Main
 {
 	public static void main(String[] args) throws Exception
 	{
-		int[] a = new int[] { 'a', 'b', 'c', 'a', 'b', 'b', 'a' };
-		int[] b = new int[] { 'c', 'b', 'a', 'b', 'a', 'c' };
+		Index<String> index = new Index<String>();
+		
+		int[] a = index.insert(new String[] { "a", "b", "c", "a", "b", "b", "a" });
+		int[] b = index.insert(new String[] { "c", "b", "a", "b", "a", "c" });
 
 		Myers myers = new Myers(a, b);
 		Trace trace = myers.shortestEdit();
@@ -37,7 +39,7 @@ public class Main
 				@SuppressWarnings("unchecked")
 				Insert<Integer> insert = (Insert<Integer>)transformation;
 				
-				System.out.format("INSERT %c at %d\n", insert.getItem(), insert.getIndex());
+				System.out.format("INSERT %s at %d\n", index.map(insert.getItem()), insert.getIndex());
 			}
 			else
 			{
