@@ -28,14 +28,22 @@ public class Main
 		Myers myers = new Myers(a, b);
 		Trace trace = myers.shortestEdit();
 		Edge[] edges = myers.backtrack(trace);
-
-		for(Edge edge : edges)
+		ITransformation[] script = myers.editScript(edges);
+		
+		for(ITransformation transformation : script)
 		{
-			System.out.format("(%d, %d) -> (%d, %d)\n",
-					          edge.getFrom().getX(),
-					          edge.getFrom().getY(),
-					          edge.getTo().getX(),
-					          edge.getTo().getY());
+			if(transformation instanceof Insert)
+			{
+				@SuppressWarnings("unchecked")
+				Insert<Integer> insert = (Insert<Integer>)transformation;
+				
+				System.out.format("INSERT %c at %d\n", insert.getItem(), insert.getIndex());
+			}
+			else
+			{
+				Delete del = (Delete)transformation;
+				System.out.format("DELETE %d-%d\n", del.getIndex(), del.getLength());
+			}
 		}
 
 		/*

@@ -56,10 +56,9 @@ public class Myers
 				{
 					x = v.get(k - 1) + 1;
 				}
-				
-				
+
 				y = x - k;
-				
+
 				while(x < n && y < m && a[x] == b[y])
 				{
 					++x;
@@ -126,6 +125,49 @@ public class Myers
 		return edges.toArray(new Edge[0]);
 	}
 	
+	public ITransformation[] editScript(Edge[] edges)
+	{
+		final List<ITransformation> script = new ArrayList<ITransformation>();
+		int offset = 0;
+		boolean beginDelete = false;
+		int beginDeleteOffset = -1;
+		
+		for(Edge edge : edges)
+		{
+			if(edge.getTo().getY() == edge.getFrom().getY())
+			{
+				if(!beginDelete)
+				{
+					beginDelete = true;
+					beginDeleteOffset = offset;
+				}
+			}
+			else
+			{
+				if(beginDelete)
+				{
+					script.add(new Delete(beginDeleteOffset, offset - beginDeleteOffset));
+					offset = beginDeleteOffset;
+					beginDelete = false;
+				}
+				
+				if(edge.getTo().getX() == edge.getFrom().getX())
+				{
+					script.add(new Insert<Integer>(offset, b[edge.getFrom().getY()]));
+				}
+			}
+
+			++offset;
+		}
+		
+		if(beginDelete)
+		{
+			script.add(new Delete(beginDeleteOffset, offset - beginDeleteOffset));
+		}
+
+		return script.toArray(new ITransformation[0]);
+	}
+
 	private static boolean moveRight(Integer k, Integer d, Integer top, Integer right)
 	{
 		boolean moveRight = false;
