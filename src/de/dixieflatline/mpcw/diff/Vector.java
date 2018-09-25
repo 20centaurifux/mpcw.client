@@ -74,8 +74,9 @@ public class Vector<T> implements Iterable<T>
 	
 	private int offsetFromIndex(int index)
 	{
-		if(index < from || index > to - 1)
+		if(index < from || index > to)
 		{
+			System.out.format("index=%d, from=%d, to=%d\n", index, from, to);
 			throw new IndexOutOfBoundsException();
 		}
 

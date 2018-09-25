@@ -24,8 +24,8 @@ public class Main
 	{
 		Index<String> index = new Index<String>();
 		
-		int[] a = index.insert(new String[] { "a", "b", "c", "a", "b", "b", "a" });
-		int[] b = index.insert(new String[] { "c", "b", "a", "b", "a", "c" });
+		int[] a = index.insert(new String[] { "to", "be", "or", "not", "to", "be" });
+		int[] b = index.insert(new String[] { "to", "fnord", "or", "not", "to", "fnord" });
 
 		Myers myers = new Myers(a, b);
 		Trace trace = myers.shortestEdit();

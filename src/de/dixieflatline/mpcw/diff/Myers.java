@@ -37,7 +37,7 @@ public class Myers
 		final int n = a.length;
 		final int m = b.length;
 		final int max = n + m;
-		final Vector<Integer> v = new Vector<Integer>(-m, n - 1);
+		final Vector<Integer> v = new Vector<Integer>(-max, max + 1);
 		final Trace trace = new Trace();
 
 		v.set(1, 0);
@@ -128,7 +128,7 @@ public class Myers
 	public ITransformation[] editScript(Edge[] edges)
 	{
 		final List<ITransformation> script = new ArrayList<ITransformation>();
-		int offset = 0;
+		int offset = edges[0].getFrom().getX();
 		boolean beginDelete = false;
 		int beginDeleteOffset = -1;
 		
