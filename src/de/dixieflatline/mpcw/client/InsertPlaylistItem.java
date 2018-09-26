@@ -14,27 +14,29 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
     General Public License v3 for more details.
  ***************************************************************************/
-package de.dixieflatline.mpcw.diff;
+package de.dixieflatline.mpcw.client;
 
-public class Insert<T> implements ITransformation
+import de.dixieflatline.mpcw.diff.ITransformation;
+
+public class InsertPlaylistItem implements ITransformation
 {
-	private final int index;
-	private final T item;
-
-	public Insert(int index, T item)
+	private final int offset;
+	private final PlaylistItem item;
+	
+	public InsertPlaylistItem(int offset, PlaylistItem item)
 	{
-		this.index = index;
+		this.offset = offset;
 		this.item = item;
 	}
 
-	public T getItem()
+	public PlaylistItem getItem()
 	{
 		return item;
 	}
 	
 	@Override
-	public int getIndex()
+	public int getOffset()
 	{
-		return index;
+		return offset;
 	}
 }

@@ -37,7 +37,7 @@ public class Myers
 		final int n = a.length;
 		final int m = b.length;
 		final int max = n + m;
-		final Vector<Integer> v = new Vector<Integer>(-max, max + 1);
+		final Vector<Integer> v = new Vector<Integer>(-max - 1, max + 1);
 		final Trace trace = new Trace();
 
 		v.set(1, 0);
@@ -128,41 +128,45 @@ public class Myers
 	public ITransformation[] editScript(Edge[] edges)
 	{
 		final List<ITransformation> script = new ArrayList<ITransformation>();
-		int offset = edges[0].getFrom().getX();
-		boolean beginDelete = false;
-		int beginDeleteOffset = -1;
 		
-		for(Edge edge : edges)
+		if(edges.length > 0)
 		{
-			if(edge.getTo().getY() == edge.getFrom().getY())
+			int offset = edges[0].getFrom().getX();
+			boolean beginDelete = false;
+			int beginDeleteOffset = -1;
+			
+			for(Edge edge : edges)
 			{
-				if(!beginDelete)
+				if(edge.getTo().getY() == edge.getFrom().getY())
 				{
-					beginDelete = true;
-					beginDeleteOffset = offset;
+					if(!beginDelete)
+					{
+						beginDelete = true;
+						beginDeleteOffset = offset;
+					}
 				}
+				else
+				{
+					if(beginDelete)
+					{
+						script.add(new Delete(beginDeleteOffset, offset - beginDeleteOffset));
+						offset = beginDeleteOffset;
+						beginDelete = false;
+					}
+					
+					if(edge.getTo().getX() == edge.getFrom().getX())
+					{
+						script.add(new InsertFrom(offset, b[edge.getFrom().getY()]));
+					}
+				}
+	
+				++offset;
 			}
-			else
+			
+			if(beginDelete)
 			{
-				if(beginDelete)
-				{
-					script.add(new Delete(beginDeleteOffset, offset - beginDeleteOffset));
-					offset = beginDeleteOffset;
-					beginDelete = false;
-				}
-				
-				if(edge.getTo().getX() == edge.getFrom().getX())
-				{
-					script.add(new Insert<Integer>(offset, b[edge.getFrom().getY()]));
-				}
+				script.add(new Delete(beginDeleteOffset, offset - beginDeleteOffset));
 			}
-
-			++offset;
-		}
-		
-		if(beginDelete)
-		{
-			script.add(new Delete(beginDeleteOffset, offset - beginDeleteOffset));
 		}
 
 		return script.toArray(new ITransformation[0]);

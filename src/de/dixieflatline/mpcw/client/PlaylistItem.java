@@ -28,6 +28,13 @@ public class PlaylistItem
 		this.title = title;
 		hashCode = calculateHashcode();
 	}
+	
+	public PlaylistItem(PlaylistItem item)
+	{
+		this.artist = item.getArtist();
+		this.title = item.getTitle();
+		hashCode = calculateHashcode();
+	}
 
 	public String getTitle()
 	{
@@ -49,7 +56,7 @@ public class PlaylistItem
 		
 		return result;
 	}
-	
+
 	@Override
 	public int hashCode()
 	{

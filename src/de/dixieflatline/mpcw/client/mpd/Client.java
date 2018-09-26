@@ -38,10 +38,6 @@ public class Client implements IClient
 	
 	public IPlaylist getCurrentPlaylist() throws CommunicationException, ProtocolException
 	{
-		IPlaylist playlist = new Playlist(channel);
-		
-		playlist.synchronize();
-		
-		return playlist;
+		return new Playlist(channel);
 	}
 }

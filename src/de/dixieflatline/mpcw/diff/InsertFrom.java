@@ -14,15 +14,27 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
     General Public License v3 for more details.
  ***************************************************************************/
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.diff;
 
-import de.dixieflatline.mpcw.diff.ITransformation;
-
-public interface IPlaylist
+public class InsertFrom implements ITransformation
 {
-	Iterable<ITransformation> synchronize() throws CommunicationException, ProtocolException;
+	private final int offset;
+	private final int from;
 
-	int selectedIndex();
-		
-	Iterable<ITransformation> selectAndPlay(int offset) throws CommunicationException, ProtocolException;
+	public InsertFrom(int offset, int from)
+	{
+		this.offset = offset;
+		this.from = from;
+	}
+
+	public int getFrom()
+	{
+		return from;
+	}
+	
+	@Override
+	public int getOffset()
+	{
+		return offset;
+	}
 }

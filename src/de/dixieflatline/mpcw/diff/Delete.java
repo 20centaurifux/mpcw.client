@@ -18,19 +18,19 @@ package de.dixieflatline.mpcw.diff;
 
 public class Delete implements ITransformation
 {
-	private final int index;
+	private final int offset;
 	private final int length;
 	
-	public Delete(int index, int length)
+	public Delete(int offset, int length)
 	{
-		this.index = index;
+		this.offset = offset;
 		this.length = length;
 	}
 
 	@Override
-	public int getIndex()
+	public int getOffset()
 	{
-		return index;
+		return offset;
 	}
 	
 	public int getLength()

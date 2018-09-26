@@ -22,38 +22,13 @@ public class Main
 {
 	public static void main(String[] args) throws Exception
 	{
-		Index<String> index = new Index<String>();
-		
-		int[] a = index.insert(new String[] { "to", "be", "or", "not", "to", "be" });
-		int[] b = index.insert(new String[] { "to", "fnord", "or", "not", "to", "fnord" });
-
-		Myers myers = new Myers(a, b);
-		Trace trace = myers.shortestEdit();
-		Edge[] edges = myers.backtrack(trace);
-		ITransformation[] script = myers.editScript(edges);
-		
-		for(ITransformation transformation : script)
-		{
-			if(transformation instanceof Insert)
-			{
-				@SuppressWarnings("unchecked")
-				Insert<Integer> insert = (Insert<Integer>)transformation;
-				
-				System.out.format("INSERT %s at %d\n", index.map(insert.getItem()), insert.getIndex());
-			}
-			else
-			{
-				Delete del = (Delete)transformation;
-				System.out.format("DELETE %d-%d\n", del.getIndex(), del.getLength());
-			}
-		}
-
-		/*
 		IConnection conn = Connection.create("mpd://localhost:6600");
 
 		conn.connect();
 
 		IClient client = conn.getClient();
+		
+		/*
 		IPlayer player = client.getPlayer();
 		Status status = player.getStatus();
 
@@ -62,23 +37,49 @@ public class Main
 		System.out.println(status.hasNext());
 		System.out.println(status.getArtist());
 		System.out.println(status.getTitle());
-		
-		player.stop();
+		*/
+
+		//player.stop();
 		
 		IPlaylist playlist = client.getCurrentPlaylist();
 		
-		System.out.println(playlist.size());
-		System.out.println(playlist.selectedIndex());
+		//System.out.println(playlist.size());
+		//System.out.println(playlist.selectedIndex());
 
+		/*
 		for(PlaylistItem item : playlist)
 		{
 			System.out.println(item.getArtist());
 			System.out.println(item.getTitle());
 		}
-
-		playlist.selectAndPlay(0);
-
-		conn.disconnect();
 		*/
+
+		//playlist.selectAndPlay(0);
+
+		while(true)
+		{
+			for(ITransformation transformation : playlist.synchronize())
+			{	
+				if(transformation instanceof InsertPlaylistItem)
+				{
+					InsertPlaylistItem insert = (InsertPlaylistItem)transformation;
+					
+					System.out.format("INSERT %s - %s at %d\n",
+							          insert.getItem().getArtist(),
+							          insert.getItem().getTitle(),
+							          insert.getOffset());
+				}
+				else
+				{
+					Delete del = (Delete)transformation;
+					
+					System.out.format("DELETE %d-%d\n", del.getOffset(), del.getLength());
+				}
+			}
+			
+			Thread.sleep(1000);
+		}
+
+		//conn.disconnect();
 	}
 }

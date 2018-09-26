@@ -18,5 +18,5 @@ package de.dixieflatline.mpcw.diff;
 
 public interface ITransformation
 {
-	int getIndex();
+	int getOffset();
 }
