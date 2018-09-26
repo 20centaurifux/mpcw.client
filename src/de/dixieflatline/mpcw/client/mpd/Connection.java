@@ -60,7 +60,7 @@ public class Connection implements IConnection
 	@Override
 	public boolean isConnected()
 	{
-		return channel.isConnected();
+		return channel != null && channel.isConnected();
 	}
 	
 	@Override
