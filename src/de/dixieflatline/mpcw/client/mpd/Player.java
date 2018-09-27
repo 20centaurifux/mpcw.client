@@ -54,11 +54,16 @@ public class Player implements IPlayer
 				status.setHasNext(true);
 			}
 	
+			String playlistCommand = "playlistinfo 0";
+
 			if(m.containsKey("songid"))
 			{
-				String songId = m.get("songid");
-	
-				response = channel.send("playlistid " + songId);
+				playlistCommand = "playlistid " + m.get("songid");
+			}
+
+			if(!m.getOrDefault("playlistlength", "0").equals("0"))
+			{
+				response = channel.send(playlistCommand);
 	
 				m = ResponseParser.reponseToMap(response);
 	
@@ -102,13 +107,13 @@ public class Player implements IPlayer
 	@Override
 	public void next() throws CommunicationException, ProtocolException
 	{
-		channel.send("next");
+		channel.send("play", "next");
 	}
 	
 	@Override
 	public void previous() throws CommunicationException, ProtocolException
 	{
-		channel.send("previous");
+		channel.send("play", "previous");
 	}
 
 	static EState parseState(String name) throws ProtocolException
