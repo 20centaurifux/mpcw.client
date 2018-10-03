@@ -25,6 +25,6 @@ public interface IPlaylist
 	Iterable<ITransformation> synchronize() throws CommunicationException, ProtocolException;
 
 	int selectedIndex();
-		
+
 	Iterable<ITransformation> selectAndPlay(int offset, EnumSet<SelectAndPlayFlags> flags) throws CommunicationException, ProtocolException;
 }

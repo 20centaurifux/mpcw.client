@@ -21,16 +21,16 @@ public class Song
 	private final String filename;
 	private final String artist;
 	private final String album;
-	private final int no;
+	private final int track;
 	private final String title;
 
-	public Song(String filename, String artist, String album, int no, String title)
+	public Song(String filename, String artist, String album, int track, String title)
 	{
 		this.filename = filename;
 		this.artist = artist;
 		this.title = title;
 		this.album = album;
-		this.no = no;
+		this.track = track;
 	}
 
 	public String getFilename()
@@ -48,13 +48,13 @@ public class Song
 		return album;
 	}
 
+	public int getTrack()
+	{
+		return track;
+	}
+
 	public String getTitle()
 	{
 		return title;
-	}
-
-	public int getNo()
-	{
-		return no;
 	}
 }

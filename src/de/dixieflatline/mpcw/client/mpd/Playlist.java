@@ -130,11 +130,12 @@ public class Playlist implements IPlaylist
 		return Integer.parseInt(m.getOrDefault("song", "-1"));		
 	}
 
+	@Override
 	public int selectedIndex()
 	{
 		return selectedIndex;
 	}
-	
+
 	@Override
 	public Iterable<ITransformation> selectAndPlay(int offset, EnumSet<SelectAndPlayFlags> flags) throws ProtocolException, CommunicationException
 	{
