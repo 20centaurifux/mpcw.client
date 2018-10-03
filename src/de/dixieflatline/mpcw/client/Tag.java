@@ -16,9 +16,34 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client;
 
-public interface ISearchResult<T>
-{	
-	Iterable<T> getItems();
+public class Tag
+{
+	private final ETag tag;
+	private String value;
+
+	public Tag(ETag tag)
+	{
+		this.tag = tag;
+	}
 	
-	Filter[] getFilter();
+	public Tag(ETag tag, String value)
+	{
+		this.tag = tag;
+		this.value = value;
+	}
+	
+	public ETag getTag()
+	{
+		return tag;
+	}
+	
+	public void setValue(String value)
+	{
+		this.value = value;
+	}
+
+	public String getValue()
+	{
+		return value;
+	}
 }

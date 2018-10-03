@@ -14,11 +14,38 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
     General Public License v3 for more details.
  ***************************************************************************/
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
-public interface ISearchResult<T>
+import de.dixieflatline.mpcw.client.ETag;
+
+public final class TagMapper
 {	
-	Iterable<T> getItems();
-	
-	Filter[] getFilter();
+	public static String map(ETag tag)
+	{
+		String tagName;
+		
+		switch(tag)
+		{
+			case Artist:
+				tagName = "Artist";
+				break;
+			
+			case Album:
+				tagName = "Album";
+				break;
+			
+			case AlbumArtist:
+				tagName = "AlbumArtist";
+				break;
+			
+			case Title:
+				tagName = "Title";
+				break;
+			
+			default:
+				tagName = null;
+		}
+		
+		return tagName;
+	}
 }

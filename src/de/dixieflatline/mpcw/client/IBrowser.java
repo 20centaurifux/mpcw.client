@@ -18,7 +18,7 @@ package de.dixieflatline.mpcw.client;
 
 public interface IBrowser
 {
-	ISearchResult find(ETag tag) throws CommunicationException, ProtocolException;
+	ISearchResult<Tag> findTags(ETag tag) throws CommunicationException, ProtocolException;
 	
-	ISearchResult find(ETag tag, Filter[] filter) throws CommunicationException, ProtocolException;
+	ISearchResult<Tag> findTags(ETag tag, Filter[] filter) throws CommunicationException, ProtocolException;
 }

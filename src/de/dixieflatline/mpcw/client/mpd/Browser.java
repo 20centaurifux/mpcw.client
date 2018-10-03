@@ -16,16 +16,17 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 import de.dixieflatline.mpcw.client.CommunicationException;
 import de.dixieflatline.mpcw.client.ETag;
 import de.dixieflatline.mpcw.client.Filter;
 import de.dixieflatline.mpcw.client.IBrowser;
 import de.dixieflatline.mpcw.client.ISearchResult;
+import de.dixieflatline.mpcw.client.IteratorSearchResult;
 import de.dixieflatline.mpcw.client.ProtocolException;
-import de.dixieflatline.mpcw.client.SearchResult;
+import de.dixieflatline.mpcw.client.Tag;
+import de.dixieflatline.mpcw.client.TagIterator;
 
 public class Browser implements IBrowser
 {
@@ -37,20 +38,21 @@ public class Browser implements IBrowser
 	}
 
 	@Override
-	public ISearchResult find(ETag tag) throws CommunicationException, ProtocolException
+	public ISearchResult<Tag> findTags(ETag tag) throws CommunicationException, ProtocolException
 	{
-		IResponse response = channel.send("list " + mapTag(tag));
+		IResponse response = channel.send("list " + TagMapper.map(tag));
 	
 		return toSearchResult(tag, response);
 	}
 
 	@Override
-	public ISearchResult find(ETag tag, Filter[] filter) throws CommunicationException, ProtocolException
+	public ISearchResult<Tag> findTags(ETag tag, Filter[] filter) throws CommunicationException, ProtocolException
 	{
 		StringBuilder builder = new StringBuilder();
+		String tagName = TagMapper.map(tag);
 		
 		builder.append("list ");
-		builder.append(mapTag(tag));
+		builder.append(tagName);
 		
 		for(Filter f : filter)
 		{
@@ -58,7 +60,7 @@ public class Browser implements IBrowser
 			                .replaceAll("\"", "\\\\\"");
 
 			builder.append(" ");
-			builder.append(mapTag(f.getTag()));
+			builder.append(TagMapper.map(f.getTag()));
 			builder.append(" \"");
 			builder.append(value);
 			builder.append("\"");
@@ -71,54 +73,16 @@ public class Browser implements IBrowser
 		return toSearchResult(tag,  filter, response);
 	}
 	
-	private static String mapTag(ETag tag)
+	private static IteratorSearchResult<Tag> toSearchResult(ETag tag, IResponse response) throws ProtocolException
 	{
-		String tagName;
-		
-		switch(tag)
-		{
-			case Artist:
-				tagName = "Artist";
-				break;
-			
-			case Album:
-				tagName = "Album";
-				break;
-			
-			case AlbumArtist:
-				tagName = "AlbumArtist";
-				break;
-			
-			case Title:
-				tagName = "Title";
-				break;
-			
-			default:
-				tagName = null;
-		}
-		
-		return tagName;
+		return toSearchResult(tag, null, response);
 	}
 	
-	private static SearchResult toSearchResult(ETag tag, IResponse response)
+	private static IteratorSearchResult<Tag> toSearchResult(ETag tag, Filter[] filter, IResponse response) throws ProtocolException
 	{
-		return toSearchResult(tag, new Filter[0], response);
-	}
-	
-	private static SearchResult toSearchResult(ETag tag, Filter[] filter, IResponse response)
-	{
-		String tagName = mapTag(tag);
-		String linePrefix = String.format("%s: ", tagName);
-		List<String> items = new ArrayList<String>();
-		
-		for(String line : response)
-		{
-			if(line.startsWith(linePrefix))
-			{
-				items.add(line.substring(linePrefix.length()));
-			}
-		}
-		
-		return new SearchResult(tag, new Filter[0], items);
+		Iterator<Tag> iterator = new TagIterator(tag, response);
+
+		return filter == null ? new IteratorSearchResult<Tag>(iterator)
+		                      : new IteratorSearchResult<Tag>(iterator, filter);
 	}
 }

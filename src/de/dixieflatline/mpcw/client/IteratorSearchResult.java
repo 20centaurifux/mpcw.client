@@ -16,27 +16,25 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client;
 
-import java.util.Collection;
+import java.util.Iterator;
 
-public class SearchResult implements ISearchResult
+public class IteratorSearchResult<T> implements ISearchResult<T>
 {
-	private final ETag tag;
 	private final Filter[] filter;
-	private final String[] items;
+	private final Iterator<T> iterator;
 	
-	public SearchResult(ETag tag, Filter[] filter, Collection<String> items)
+	public IteratorSearchResult(Iterator<T> iterator)
 	{
-		this.tag = tag;
+		this.iterator = iterator;
+		this.filter = new Filter[0];
+	}
+	
+	public IteratorSearchResult(Iterator<T> iterator, Filter[] filter)
+	{
+		this.iterator = iterator;
 		this.filter = filter;
-		this.items = items.toArray(new String[0]);
 	}
 
-	@Override
-	public ETag getTag()
-	{
-		return tag;
-	}
-	
 	@Override
 	public Filter[] getFilter()
 	{
@@ -44,9 +42,15 @@ public class SearchResult implements ISearchResult
 	}
 
 	@Override
-	public String[] getItems()
+	public Iterable<T> getItems()
 	{
-		return items;
+		return new Iterable<T>()
+		{
+			@Override
+			public Iterator<T> iterator()
+			{
+				return iterator;
+			}
+		};
 	}
-
 }
