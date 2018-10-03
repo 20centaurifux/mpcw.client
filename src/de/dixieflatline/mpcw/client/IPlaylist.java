@@ -16,6 +16,8 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client;
 
+import java.util.EnumSet;
+
 import de.dixieflatline.mpcw.diff.ITransformation;
 
 public interface IPlaylist
@@ -24,5 +26,5 @@ public interface IPlaylist
 
 	int selectedIndex();
 		
-	Iterable<ITransformation> selectAndPlay(int offset) throws CommunicationException, ProtocolException;
+	Iterable<ITransformation> selectAndPlay(int offset, EnumSet<SelectAndPlayFlags> flags) throws CommunicationException, ProtocolException;
 }

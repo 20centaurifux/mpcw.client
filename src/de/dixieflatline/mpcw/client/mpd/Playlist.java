@@ -143,9 +143,9 @@ public class Playlist implements IPlaylist
 	}
 	
 	@Override
-	public Iterable<ITransformation> selectAndPlay(int offset) throws ProtocolException, CommunicationException
+	public Iterable<ITransformation> selectAndPlay(int offset, EnumSet<SelectAndPlayFlags> flags) throws ProtocolException, CommunicationException
 	{
-		if(offsetIsInRange(offset))
+		if(flags.contains(SelectAndPlayFlags.NoRangeCheck) || offsetIsInRange(offset))
 		{
 			channel.send("play " + offset);
 		}
