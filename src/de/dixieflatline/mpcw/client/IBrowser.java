@@ -21,4 +21,6 @@ public interface IBrowser
 	ISearchResult<Tag> findTags(ETag tag) throws CommunicationException, ProtocolException;
 	
 	ISearchResult<Tag> findTags(ETag tag, Filter[] filter) throws CommunicationException, ProtocolException;
+	
+	ISearchResult<Song> findSongs(Filter[] filter) throws CommunicationException, ProtocolException;
 }

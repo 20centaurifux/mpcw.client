@@ -19,24 +19,30 @@ package de.dixieflatline.mpcw.client.mpd;
 import java.util.List;
 import java.util.ArrayList;
 
-import de.dixieflatline.mpcw.client.PlaylistItem;
+import de.dixieflatline.mpcw.client.Song;
 
-public class PlaylistScanner
+public class FindScanner
 {
 	private boolean firstItemFound;
+	private String filename;
 	private String artist;
+	private String album;
+	private int track;
 	private String title;
-	private final List<IPlaylistScannerListener> listeners;
+	private final List<IFindScannerListener> listeners;
 	
-	public PlaylistScanner()
+	public FindScanner()
 	{
-		listeners = new ArrayList<IPlaylistScannerListener>();
+		listeners = new ArrayList<IFindScannerListener>();
 	}
 
 	public void reset()
 	{
 		firstItemFound = false;
+		filename = null;
 		artist = null;
+		album = null;
+		track = 0;
 		title = null;
 	}
 
@@ -48,16 +54,34 @@ public class PlaylistScanner
 		{
 			if(firstItemFound)
 			{
-				raiseOnPlaylistItemFound();
+				raiseOnSongFound();
 			}
 
 			firstItemFound = true;
+			filename = pair.getValue();
 			artist = null;
+			album = null;
+			track = 0;
 			title = null;
 		}
 		else if(pair.getKey().equals("Artist"))
 		{
 			artist = pair.getValue();
+		}
+		else if(pair.getKey().equals("Album"))
+		{
+			album = pair.getValue();
+		}
+		else if(pair.getKey().equals("Track"))
+		{
+			try
+			{
+				track = Integer.parseInt(pair.getValue());
+			}
+			catch(Exception ex)
+			{
+				track = 0;
+			}
 		}
 		else if(pair.getKey().equals("Title"))
 		{
@@ -67,26 +91,26 @@ public class PlaylistScanner
 	
 	public void flush()
 	{
-		raiseOnPlaylistItemFound();
+		raiseOnSongFound();
 	}
 	
-	public void addListener(IPlaylistScannerListener listener)
+	public void addListener(IFindScannerListener listener)
 	{
 		listeners.add(listener);
 	}
 
-	public void removeListener(IPlaylistScannerListener listener)
+	public void removeListener(IFindScannerListener listener)
 	{
 		listeners.remove(listener);
 	}
 
-	private void raiseOnPlaylistItemFound()
+	private void raiseOnSongFound()
 	{
-		if((artist != null && !artist.isEmpty()) || (title != null && !title.isEmpty()))
+		if(filename != null)
 		{
-			PlaylistItem item = new PlaylistItem(artist, title);
+			Song song = new Song(filename, artist, album, track, title);
 			
-			listeners.forEach((l) -> l.onPlaylistItemFound(item));
+			listeners.forEach((l) -> l.onSongFound(song));
 		}
 	}
 }

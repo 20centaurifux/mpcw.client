@@ -14,47 +14,11 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
     General Public License v3 for more details.
  ***************************************************************************/
-package de.dixieflatline.mpcw.client;
+package de.dixieflatline.mpcw.client.mpd;
 
-public class Song
+import de.dixieflatline.mpcw.client.Song;;
+
+public interface IFindScannerListener
 {
-	private final String filename;
-	private final String artist;
-	private final String album;
-	private final int no;
-	private final String title;
-
-	public Song(String filename, String artist, String album, int no, String title)
-	{
-		this.filename = filename;
-		this.artist = artist;
-		this.title = title;
-		this.album = album;
-		this.no = no;
-	}
-
-	public String getFilename()
-	{
-		return filename;
-	}
-	
-	public String getArtist()
-	{
-		return artist;
-	}
-
-	public String getAlbum()
-	{
-		return album;
-	}
-
-	public String getTitle()
-	{
-		return title;
-	}
-
-	public int getNo()
-	{
-		return no;
-	}
+	void onSongFound(Song song);
 }
