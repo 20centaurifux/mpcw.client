@@ -21,15 +21,15 @@ import de.dixieflatline.mpcw.diff.ITransformation;
 public class InsertPlaylistItem implements ITransformation
 {
 	private final int offset;
-	private final PlaylistItem item;
+	private final Song item;
 	
-	public InsertPlaylistItem(int offset, PlaylistItem item)
+	public InsertPlaylistItem(int offset, Song item)
 	{
 		this.offset = offset;
 		this.item = item;
 	}
 
-	public PlaylistItem getItem()
+	public Song getItem()
 	{
 		return item;
 	}

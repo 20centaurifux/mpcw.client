@@ -14,11 +14,13 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
     General Public License v3 for more details.
  ***************************************************************************/
-package de.dixieflatline.mpcw.client.mpd;
+package de.dixieflatline.mpcw.client;
 
-import de.dixieflatline.mpcw.client.Song;
-
-public interface IPlaylistScannerListener
+public interface ISearchResult
 {
-	void onPlaylistItemFound(Song item);
+	ETag getTag();
+
+	Filter[] getFilter();
+	
+	String[] getItems();
 }

@@ -16,20 +16,20 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client;
 
-public class PlaylistItem
+public class Song
 {
 	private final String artist;
 	private final String title;
 	private final int hashCode;
 	
-	public PlaylistItem(String artist, String title)
+	public Song(String artist, String title)
 	{
 		this.artist = artist;
 		this.title = title;
 		hashCode = calculateHashcode();
 	}
 	
-	public PlaylistItem(PlaylistItem item)
+	public Song(Song item)
 	{
 		this.artist = item.getArtist();
 		this.title = item.getTitle();
@@ -81,7 +81,7 @@ public class PlaylistItem
 			return false;
 		}
 		
-		PlaylistItem other = (PlaylistItem) obj;
+		Song other = (Song) obj;
 
 		if(artist == null)
 		{

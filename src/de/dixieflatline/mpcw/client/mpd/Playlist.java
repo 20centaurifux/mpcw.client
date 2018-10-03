@@ -24,15 +24,15 @@ import de.dixieflatline.mpcw.diff.*;
 public class Playlist implements IPlaylist
 {
 	private final Channel channel;
-	private PlaylistItem[] items;
+	private Song[] items;
 	private int selectedIndex = -1;
-	private final Index<PlaylistItem> index;
+	private final Index<Song> index;
 	
 	public Playlist(Channel channel)
 	{
-		items = new PlaylistItem[0];
+		items = new Song[0];
 		this.channel = channel;
-		index = new Index<PlaylistItem>();
+		index = new Index<Song>();
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class Playlist implements IPlaylist
 		{
 			selectedIndex = loadSelectedIndex();
 
-			PlaylistItem[] newItems = loadPlaylistItems();
+			Song[] newItems = loadPlaylistItems();
 
 			Iterable<ITransformation> iterable = new Iterable<ITransformation>()
 			{
@@ -88,16 +88,16 @@ public class Playlist implements IPlaylist
 		}
 	}
 
-	private PlaylistItem[] loadPlaylistItems() throws CommunicationException, ProtocolException, InvalidFormatException
+	private Song[] loadPlaylistItems() throws CommunicationException, ProtocolException, InvalidFormatException
 	{
 		IResponse response = channel.send("playlistinfo");		
 		PlaylistScanner scanner = new PlaylistScanner();
-		List<PlaylistItem> items = new ArrayList<PlaylistItem>();
+		List<Song> items = new ArrayList<Song>();
 
 		scanner.addListener(new IPlaylistScannerListener()
 		{	
 			@Override
-			public void onPlaylistItemFound(PlaylistItem item)
+			public void onPlaylistItemFound(Song item)
 			{
 				items.add(item);	
 			}
@@ -113,10 +113,10 @@ public class Playlist implements IPlaylist
 
 		scanner.flush();
 		
-		return items.toArray(new PlaylistItem[0]);
+		return items.toArray(new Song[0]);
 	}
 	
-	ITransformation[] createPatch(PlaylistItem[] newItems)
+	ITransformation[] createPatch(Song[] newItems)
 	{
 		int[] a = index.insert(items);
 		int[] b = index.insert(newItems);

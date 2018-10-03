@@ -19,7 +19,7 @@ package de.dixieflatline.mpcw.client.mpd;
 import java.util.List;
 import java.util.ArrayList;
 
-import de.dixieflatline.mpcw.client.PlaylistItem;
+import de.dixieflatline.mpcw.client.Song;
 
 public class PlaylistScanner
 {
@@ -86,7 +86,7 @@ public class PlaylistScanner
 		{
 			for(IPlaylistScannerListener listener : listeners)
 			{
-				PlaylistItem item = new PlaylistItem(artist, title);
+				Song item = new Song(artist, title);
 				
 				listener.onPlaylistItemFound(item);
 			}

@@ -17,6 +17,7 @@
 package de.dixieflatline.mpcw.client.mpd;
 
 import de.dixieflatline.mpcw.client.CommunicationException;
+import de.dixieflatline.mpcw.client.IBrowser;
 import de.dixieflatline.mpcw.client.IClient;
 import de.dixieflatline.mpcw.client.IPlayer;
 import de.dixieflatline.mpcw.client.IPlaylist;
@@ -39,5 +40,11 @@ public class Client implements IClient
 	public IPlaylist getCurrentPlaylist() throws CommunicationException, ProtocolException
 	{
 		return new Playlist(channel);
+	}
+	
+	@Override
+	public IBrowser getBrowser()
+	{
+		return new Browser(channel);
 	}
 }

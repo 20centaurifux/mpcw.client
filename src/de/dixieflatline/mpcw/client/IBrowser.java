@@ -14,11 +14,11 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
     General Public License v3 for more details.
  ***************************************************************************/
-package de.dixieflatline.mpcw.client.mpd;
+package de.dixieflatline.mpcw.client;
 
-import de.dixieflatline.mpcw.client.Song;
-
-public interface IPlaylistScannerListener
+public interface IBrowser
 {
-	void onPlaylistItemFound(Song item);
+	ISearchResult find(ETag tag) throws CommunicationException, ProtocolException;
+	
+	ISearchResult find(ETag tag, Filter[] filter) throws CommunicationException, ProtocolException;
 }

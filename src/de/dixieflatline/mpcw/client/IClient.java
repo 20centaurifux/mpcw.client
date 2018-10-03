@@ -21,4 +21,6 @@ public interface IClient
 	IPlayer getPlayer();
 	
 	IPlaylist getCurrentPlaylist() throws CommunicationException, ProtocolException;
+	
+	IBrowser getBrowser();
 }
