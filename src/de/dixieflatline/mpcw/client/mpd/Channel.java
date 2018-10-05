@@ -33,7 +33,7 @@ public class Channel
 	{
 		this.socket = socket;
 
-		reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 		writer = new DataOutputStream(socket.getOutputStream());
 	}
 
@@ -63,7 +63,10 @@ public class Channel
 	{
 		try
 		{
-			writer.writeBytes(line + '\n');	
+			byte[] bytes = line.getBytes("UTF-8");
+			
+			writer.write(bytes);
+			writer.write('\n');
 		}
 		catch(IOException ex)
 		{
