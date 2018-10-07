@@ -16,17 +16,21 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client.mpd;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.dixieflatline.mpcw.client.CommunicationException;
 import de.dixieflatline.mpcw.client.IBrowser;
 import de.dixieflatline.mpcw.client.IClient;
 import de.dixieflatline.mpcw.client.IPlayer;
 import de.dixieflatline.mpcw.client.IPlaylist;
+import de.dixieflatline.mpcw.client.PlaylistItem;
 import de.dixieflatline.mpcw.client.ProtocolException;
 
 public class Client implements IClient
 {
 	private final Channel channel;
-	
+
 	public Client(Channel channel)
 	{
 		this.channel = channel;
@@ -42,6 +46,15 @@ public class Client implements IClient
 		return new Playlist(channel);
 	}
 	
+	public IPlaylist resyncCurrentPlaylist(IPlaylist playlist) throws CommunicationException, ProtocolException
+	{
+		List<PlaylistItem> list = new ArrayList<PlaylistItem>();
+
+		playlist.getPlaylistItems().forEach((item) -> list.add(item));
+	
+		return new Playlist(channel, list.toArray(new PlaylistItem[0]));
+	}
+
 	@Override
 	public IBrowser getBrowser()
 	{

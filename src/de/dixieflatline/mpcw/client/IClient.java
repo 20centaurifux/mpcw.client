@@ -22,5 +22,7 @@ public interface IClient
 	
 	IPlaylist getCurrentPlaylist() throws CommunicationException, ProtocolException;
 	
+	IPlaylist resyncCurrentPlaylist(IPlaylist playlist) throws CommunicationException, ProtocolException;
+
 	IBrowser getBrowser();
 }

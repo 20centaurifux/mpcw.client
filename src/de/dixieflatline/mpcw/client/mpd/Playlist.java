@@ -35,6 +35,19 @@ public class Playlist implements IPlaylist
 		index = new Index<PlaylistItem>();
 	}
 
+	public Playlist(Channel channel, PlaylistItem[] items)
+	{
+		this.items = items;
+		this.channel = channel;
+		index = new Index<PlaylistItem>();
+	}
+
+	@Override
+	public Iterable<PlaylistItem> getPlaylistItems()
+	{
+		return Arrays.asList(items);
+	}
+
 	@Override
 	public Iterable<ITransformation> synchronize() throws CommunicationException, ProtocolException
 	{
