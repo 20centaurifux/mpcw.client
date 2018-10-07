@@ -64,7 +64,7 @@ public class Channel
 		try
 		{
 			byte[] bytes = line.getBytes("UTF-8");
-			
+
 			writer.write(bytes);
 			writer.write('\n');
 		}
@@ -128,7 +128,7 @@ public class Channel
 	
 	public boolean isConnected()
 	{
-		return socket != null && socket.isConnected();
+		return socket != null && !socket.isClosed();
 	}
 
 	public void close() throws CommunicationException
