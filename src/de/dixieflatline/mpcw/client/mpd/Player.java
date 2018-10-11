@@ -116,6 +116,12 @@ public class Player implements IPlayer
 		channel.send("play", "previous");
 	}
 
+	@Override
+	public void clear() throws CommunicationException, ProtocolException
+	{
+		channel.send("clear");
+	}
+
 	static EState parseState(String name) throws ProtocolException
 	{
 		EState state = EState.Stop;

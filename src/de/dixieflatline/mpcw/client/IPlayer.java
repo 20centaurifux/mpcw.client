@@ -29,4 +29,6 @@ public interface IPlayer
 	void next() throws CommunicationException, ProtocolException;
 	
 	void previous() throws CommunicationException, ProtocolException;
+
+	void clear() throws CommunicationException, ProtocolException;
 }
