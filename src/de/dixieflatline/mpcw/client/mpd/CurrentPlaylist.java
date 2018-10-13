@@ -51,9 +51,15 @@ public class CurrentPlaylist implements IPlaylist
 	@Override
 	public void appendSong(Song song) throws CommunicationException, ProtocolException
 	{
-		channel.send("add " + EscapeUtil.quote(song.getFilename()));
+		appendSong(song.getFilename());
 	}
 
+	@Override
+	public void appendSong(String filename) throws CommunicationException, ProtocolException
+	{
+		channel.send("add " + EscapeUtil.quote(filename));
+	}
+	
 	@Override
 	public void appendSongs(Iterable<Song> songs) throws CommunicationException, ProtocolException
 	{

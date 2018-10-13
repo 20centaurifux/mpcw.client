@@ -30,6 +30,8 @@ public interface IPlaylist
 
 	void appendSong(Song song) throws CommunicationException, ProtocolException;
 
+	void appendSong(String filename) throws CommunicationException, ProtocolException;
+
 	void appendSongs(Iterable<Song> songs) throws CommunicationException, ProtocolException;
 
 	Iterable<ITransformation> selectAndPlay(int offset, EnumSet<SelectAndPlayFlags> flags) throws CommunicationException, ProtocolException;
