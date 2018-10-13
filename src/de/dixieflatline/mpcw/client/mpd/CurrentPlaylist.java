@@ -21,21 +21,21 @@ import java.util.*;
 import de.dixieflatline.mpcw.client.*;
 import de.dixieflatline.mpcw.diff.*;
 
-public class Playlist implements IPlaylist
+public class CurrentPlaylist implements IPlaylist
 {
 	private final Channel channel;
 	private PlaylistItem[] items;
 	private int selectedIndex = -1;
 	private final Index<PlaylistItem> index;
 	
-	public Playlist(Channel channel)
+	public CurrentPlaylist(Channel channel)
 	{
 		items = new PlaylistItem[0];
 		this.channel = channel;
 		index = new Index<PlaylistItem>();
 	}
 
-	public Playlist(Channel channel, PlaylistItem[] items)
+	public CurrentPlaylist(Channel channel, PlaylistItem[] items)
 	{
 		this.items = items;
 		this.channel = channel;
@@ -46,6 +46,45 @@ public class Playlist implements IPlaylist
 	public Iterable<PlaylistItem> getPlaylistItems()
 	{
 		return Arrays.asList(items);
+	}
+
+	@Override
+	public void appendSong(Song song) throws CommunicationException, ProtocolException
+	{
+		String escaped = song.getFilename()
+		                     .replaceAll("\"", "\\\\\"");
+
+		channel.send(String.format("add \"%s\"", escaped));
+	}
+
+	@Override
+	public void appendSongs(Iterable<Song> songs) throws CommunicationException, ProtocolException
+	{
+		String[] bulk = new String[50];
+		int offset = 0;
+		
+		for(Song song : songs)
+		{
+			String escaped = song.getFilename()
+		                         .replaceAll("\"", "\\\\\"");
+			
+			bulk[offset++] = String.format("add \"%s\"", escaped);
+			
+			if(offset == bulk.length)
+			{
+				channel.send(bulk);
+				offset = 0;
+			}
+		}
+		
+		if(offset > 0)
+		{
+			String[] lastBulk = new String[offset];
+			
+			System.arraycopy(bulk, 0, lastBulk, 0, offset);
+			
+			channel.send(lastBulk);
+		}
 	}
 
 	@Override
@@ -121,8 +160,8 @@ public class Playlist implements IPlaylist
 		
 		return items.toArray(new PlaylistItem[0]);
 	}
-	
-	ITransformation[] createPatch(PlaylistItem[] newItems)
+
+	private ITransformation[] createPatch(PlaylistItem[] newItems)
 	{
 		int[] a = index.insert(items);
 		int[] b = index.insert(newItems);

@@ -43,7 +43,7 @@ public class Client implements IClient
 	
 	public IPlaylist getCurrentPlaylist() throws CommunicationException, ProtocolException
 	{
-		return new Playlist(channel);
+		return new CurrentPlaylist(channel);
 	}
 	
 	public IPlaylist resyncCurrentPlaylist(IPlaylist playlist) throws CommunicationException, ProtocolException
@@ -52,7 +52,7 @@ public class Client implements IClient
 
 		playlist.getPlaylistItems().forEach((item) -> list.add(item));
 	
-		return new Playlist(channel, list.toArray(new PlaylistItem[0]));
+		return new CurrentPlaylist(channel, list.toArray(new PlaylistItem[0]));
 	}
 
 	@Override
