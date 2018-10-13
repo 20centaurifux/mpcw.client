@@ -51,39 +51,49 @@ public class CurrentPlaylist implements IPlaylist
 	@Override
 	public void appendSong(Song song) throws CommunicationException, ProtocolException
 	{
-		String escaped = song.getFilename()
-		                     .replaceAll("\"", "\\\\\"");
-
-		channel.send(String.format("add \"%s\"", escaped));
+		channel.send("add " + EscapeUtil.quote(song.getFilename()));
 	}
 
 	@Override
 	public void appendSongs(Iterable<Song> songs) throws CommunicationException, ProtocolException
 	{
-		String[] bulk = new String[50];
-		int offset = 0;
+		BulkGenerator<String> generator = new BulkGenerator<String>(50);
 		
-		for(Song song : songs)
+		generator.addListener(bulk ->
 		{
-			String escaped = song.getFilename()
-		                         .replaceAll("\"", "\\\\\"");
-			
-			bulk[offset++] = String.format("add \"%s\"", escaped);
-			
-			if(offset == bulk.length)
+			try
 			{
 				channel.send(bulk);
-				offset = 0;
 			}
-		}
-		
-		if(offset > 0)
+			catch (CommunicationException | ProtocolException ex)
+			{
+				throw new RuntimeException(ex);
+			}
+		});
+
+		try
 		{
-			String[] lastBulk = new String[offset];
-			
-			System.arraycopy(bulk, 0, lastBulk, 0, offset);
-			
-			channel.send(lastBulk);
+			for(Song song : songs)
+			{
+				generator.add("add " + EscapeUtil.quote(song.getFilename()));
+			}
+
+			generator.flush();
+		}
+		catch(RuntimeException ex)
+		{
+			Throwable cause = ex.getCause();
+	
+			if(cause instanceof CommunicationException)
+			{
+				throw (CommunicationException)cause;
+			}
+			if(cause instanceof ProtocolException)
+			{
+				throw (ProtocolException)cause;
+			}
+
+			throw ex;
 		}
 	}
 
