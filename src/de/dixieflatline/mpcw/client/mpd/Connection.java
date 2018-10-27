@@ -126,7 +126,9 @@ public class Connection implements IConnection
 			}
 			catch(ProtocolException ex)
 			{
-				throw new AuthenticationException();
+				channel.close();
+
+				throw new AuthenticationException("Authentication failed.");
 			}
 		}
 	}
