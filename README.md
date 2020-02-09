@@ -1,7 +1,7 @@
 # mpcw.client
 
-mpcw.client is a [mpd](https://www.musicpd.org/) client written in Java. It implements only a
-small subset of the protocol.
+mpcw.client is a [MPD](https://www.musicpd.org/) client library written in Java. It implements only a
+small subset of the protocol and is used by [MPC Wear](https://github.com/20centaurifux/mpcw).
 
 # API
 
