@@ -26,6 +26,7 @@ public class Connection implements IConnection
 {
 	private static int DEFAULT_PORT = 6600;
 
+	private final URI uri;
 	private final String hostname;
 	private final int port;
 	private final String password;
@@ -50,11 +51,19 @@ public class Connection implements IConnection
 		Map<String, String> params = QueryParser.parse(uri.getQuery());
 
 		password = params.getOrDefault("password", null);
+
+		this.uri = uri;
 	}
 
 	public Version getVersion()
 	{
 		return version;
+	}
+
+	@Override
+	public URI getURI()
+	{
+		return this.uri;
 	}
 	
 	@Override
@@ -66,19 +75,22 @@ public class Connection implements IConnection
 	@Override
 	public void connect() throws CommunicationException, AuthenticationException
 	{
-		openChannel();
-	
-		try
+		if(!isConnected())
 		{
-			detectVersion();
-			authenticate();
-		}
-		catch (AckException | ProtocolException ex)
-		{
-			throw new CommunicationException(ex);
+			openChannel();
+
+			try
+			{
+				detectVersion();
+				authenticate();
+			}
+			catch (AckException | ProtocolException ex)
+			{
+				throw new CommunicationException(ex);
+			}
 		}
 	}
-	
+
 	private void openChannel() throws CommunicationException
 	{
 		try
@@ -136,9 +148,17 @@ public class Connection implements IConnection
 	@Override
 	public void disconnect() throws CommunicationException
 	{
-		channel.close();
+		try
+		{
+			ConnectionPool.getInstance()
+		                  .dispose(this);
+		}
+		catch(Exception ex)
+		{
+			throw new CommunicationException(ex);
+		}
 	}
-	
+
 	@Override
 	public IClient getClient()
 	{

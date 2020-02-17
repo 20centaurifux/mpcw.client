@@ -35,17 +35,28 @@ public class Client implements IClient
 	{
 		this.channel = channel;
 	}
+
+	@Override
+	public boolean ping() throws CommunicationException, ProtocolException
+	{
+		IResponse response = channel.send("ping");
+
+		return response instanceof Ok;
+	}
 	
+	@Override
 	public IPlayer getPlayer()
 	{
 		return new Player(channel);
 	}
 	
+	@Override
 	public IPlaylist getCurrentPlaylist() throws CommunicationException, ProtocolException
 	{
 		return new CurrentPlaylist(channel);
 	}
 	
+	@Override
 	public IPlaylist resyncCurrentPlaylist(IPlaylist playlist) throws CommunicationException, ProtocolException
 	{
 		List<PlaylistItem> list = new ArrayList<PlaylistItem>();

@@ -86,7 +86,14 @@ public class Channel
 			{
 				try
 				{
-					line = reader.readLine().trim();
+					line = reader.readLine();
+
+					if(line == null)
+					{
+						throw new IOException("Receive failed.");
+					}
+
+					line = line.trim();
 				}
 				catch(IOException ex)
 				{

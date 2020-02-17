@@ -16,7 +16,7 @@
  ***************************************************************************/
 package de.dixieflatline.mpcw.client;
 
-public interface IConnection
+public interface IConnection extends IURI
 {	
 	boolean isConnected();
 
