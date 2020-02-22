@@ -18,8 +18,6 @@ package de.dixieflatline.mpcw.client;
 
 public interface IClient
 {
-	boolean ping() throws CommunicationException, ProtocolException;
-
 	IPlayer getPlayer();
 
 	IPlaylist getCurrentPlaylist() throws CommunicationException, ProtocolException;

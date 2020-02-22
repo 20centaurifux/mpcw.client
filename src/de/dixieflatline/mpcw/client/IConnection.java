@@ -21,8 +21,17 @@ public interface IConnection extends IURI
 	boolean isConnected();
 
 	void connect() throws CommunicationException, AuthenticationException;
-	
+
 	void disconnect() throws CommunicationException;
+
+	boolean ping() throws CommunicationException, ProtocolException;
+
+	void idle() throws CommunicationException, ProtocolException;
+
+	void noidle() throws CommunicationException, ProtocolException;
+
+	boolean isIdle();
+ 
 	
 	IClient getClient();
 }

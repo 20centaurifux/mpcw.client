@@ -39,7 +39,7 @@ public class Channel
 
 	public IResponse send(String... commands) throws CommunicationException, ProtocolException
 	{
-		boolean isCommandList = commands.length > 0;
+		boolean isCommandList = commands.length > 1;
 		
 		if(isCommandList)
 		{
@@ -59,7 +59,7 @@ public class Channel
 		return receive();
 	}
 	
-	private void writeLine(String line) throws CommunicationException
+	public void writeLine(String line) throws CommunicationException
 	{
 		try
 		{

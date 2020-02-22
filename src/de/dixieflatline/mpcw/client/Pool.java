@@ -46,7 +46,7 @@ public class Pool<T extends IURI>
 		{
 			obj = factory.create(uri);
 		}
-		
+
 		return obj;
 	}
 
@@ -60,7 +60,9 @@ public class Pool<T extends IURI>
 			{
 				pool.put(uri, new LinkedList<T>());
 			}
-			
+
+			factory.idle(obj);
+
 			pool.get(uri).add(obj);
 		}
 	}
@@ -120,15 +122,15 @@ public class Pool<T extends IURI>
 	private T tryRecycle(URI uri) throws Exception
 	{
 		T obj = null;
-		
+
 		if(pool.containsKey(uri))
 		{
 			Queue<T> resources = pool.get(uri);
-			
+
 			while(!resources.isEmpty() && obj == null)
 			{
 				T resource = resources.remove();
-				
+
 				if(factory.valid(resource))
 				{
 					obj = factory.recycle(resource);	

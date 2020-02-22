@@ -32,7 +32,8 @@ public class Connection implements IConnection
 	private final String password;
 	private Channel channel;
 	private Version version;
-	
+	private boolean _isIdle = false;
+
 	public Connection(URI uri)
 	{
 		hostname = uri.getHost();
@@ -157,6 +158,44 @@ public class Connection implements IConnection
 		{
 			throw new CommunicationException(ex);
 		}
+	}
+
+	@Override
+	public boolean ping() throws CommunicationException, ProtocolException
+	{
+		IResponse response = channel.send("ping");
+
+		return response instanceof Ok;
+	}
+
+	@Override
+	public void idle() throws CommunicationException, ProtocolException
+	{
+		if(!_isIdle)
+		{
+			channel.writeLine("idle");
+			_isIdle = true;
+		}
+	}
+
+	@Override
+	public void noidle() throws CommunicationException, ProtocolException
+	{
+		if(_isIdle)
+		{
+			IResponse response = channel.send("noidle");
+
+			if(response instanceof Ok)
+			{
+				_isIdle = false;
+			}
+		}
+	}
+
+	@Override
+	public boolean isIdle()
+	{
+		return _isIdle;
 	}
 
 	@Override

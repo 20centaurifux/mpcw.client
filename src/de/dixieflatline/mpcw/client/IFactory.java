@@ -21,6 +21,7 @@ import java.net.URI;
 public interface IFactory<T>
 {
 	T create(URI uri) throws Exception;
+	void idle(T resource) throws Exception;
 	T recycle(T resource) throws Exception;
 	void dispose(T resource);
 	boolean valid(T resource);

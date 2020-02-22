@@ -51,8 +51,22 @@ public final class ConnectionFactory implements IFactory<IConnection>
 	}
 
 	@Override
-	public IConnection recycle(IConnection connection)
+	public void idle(IConnection connection) throws Exception
 	{
+		if(!connection.isIdle())
+		{
+			connection.idle();
+		}
+	}
+
+	@Override
+	public IConnection recycle(IConnection connection) throws Exception
+	{
+		if(connection.isIdle())
+		{
+			connection.noidle();
+		}
+
 		return connection;
 	}
 
@@ -78,12 +92,25 @@ public final class ConnectionFactory implements IFactory<IConnection>
 		{
 			if(connection.isConnected())
 			{
-				IClient client = connection.getClient();
-				
-				connected = client.ping();
+				boolean wasIdle = connection.isIdle();
+
+				if(wasIdle)
+				{
+					connection.noidle();
+				}
+
+				connected = connection.ping();
+
+				if(wasIdle)
+				{
+					connection.idle();
+				}
 			}
 		}
-		catch(CommunicationException | ProtocolException ex) { }
+		catch(CommunicationException | ProtocolException ex)
+		{
+			connected = false;
+		}
 
 		return connected;
 	}

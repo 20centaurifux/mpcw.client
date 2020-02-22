@@ -37,14 +37,6 @@ public class Client implements IClient
 	}
 
 	@Override
-	public boolean ping() throws CommunicationException, ProtocolException
-	{
-		IResponse response = channel.send("ping");
-
-		return response instanceof Ok;
-	}
-	
-	@Override
 	public IPlayer getPlayer()
 	{
 		return new Player(channel);
